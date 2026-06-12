@@ -12,7 +12,7 @@ def run_local_whisper(audio_path, language_code="bn", keywords=None):
     from faster_whisper import WhisperModel
     import os
     
-    model_size = "small"
+    model_size = "large-v3"
     print(f"Loading Whisper {model_size} model on CPU (int8 quantized)...")
     model = WhisperModel(model_size, device="cpu", compute_type="int8")
     
