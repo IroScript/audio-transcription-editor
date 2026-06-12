@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+ENV/
+
+# Environment and Keys
+.env
+*api.txt
+
+# Archive
+archive/
+
+# Audio Files (Large datasets/temp files)
+*.wav
+*.mp3
+*.m4a
+*.flac
+*.ogg
+
+# Transcript outputs
+*_local.txt
+*_groq.txt
+*_elevenlabs.txt
