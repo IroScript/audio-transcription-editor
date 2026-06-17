@@ -26,3 +26,4 @@ archive/
 *_local.txt
 *_groq.txt
 *_elevenlabs.txt
+*.txt

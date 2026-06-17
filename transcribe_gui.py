@@ -27,6 +27,7 @@ from enhance_audio import enhance_audio
 from transcribe_elevenlabs import run_elevenlabs
 from transcribe_groq_sdk import run_groq
 from transcribe_local import run_local_whisper
+from transcribe_deepgram import run_deepgram
 
 # ── Design tokens ─────────────────────────────────────────────────
 _C = {
@@ -240,7 +241,7 @@ class TranscriptionApp:
     def _row_config(self, y, W):
         # Engine dropdown
         self.cv.create_text(28, y, text="TRANSCRIPTION ENGINE", font=('Courier New', 7, 'bold'), fill=_C['muted'], anchor='w')
-        self.model_menu = tk.OptionMenu(self.root, self.model_var, "ElevenLabs (Accurate)", "Groq (Fast)", "Local Whisper")
+        self.model_menu = tk.OptionMenu(self.root, self.model_var, "ElevenLabs (Accurate)", "Groq (Fast)", "Deepgram (Fast/Accurate)", "Local Whisper")
         self.model_menu.config(bg=_C['panel'], fg=_C['text'], activebackground=_C['hot'], activeforeground='#fff', font=('Courier New', 8), highlightthickness=1, highlightbackground=_C['border'], bd=0, indicatoron=0)
         self.model_menu["menu"].config(bg=_C['panel'], fg=_C['text'], font=('Courier New', 8))
         self.cv.create_window(30, y+10, window=self.model_menu, anchor='nw', width=240, height=24)
@@ -667,6 +668,8 @@ class TranscriptionApp:
                 transcript_text = run_elevenlabs(cleaned_path, lang_code, keywords)
             elif "Groq" in model_choice:
                 transcript_text = run_groq(cleaned_path, lang_code, keywords)
+            elif "Deepgram" in model_choice:
+                transcript_text = run_deepgram(cleaned_path, lang_code, keywords)
             else:
                 transcript_text = run_local_whisper(cleaned_path, lang_code, keywords)
                 

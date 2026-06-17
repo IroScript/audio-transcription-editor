@@ -22,8 +22,13 @@ def run_local_whisper(audio_path, language_code="bn", keywords=None):
     kwargs = {
         "beam_size": 5,
         "best_of": 5,
-        "temperature": 0.0,
-        "condition_on_previous_text": True
+        "temperature": [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],  # Enables temperature fallback to break loops
+        "condition_on_previous_text": False,
+        "vad_filter": True,
+        "vad_parameters": dict(min_silence_duration_ms=500),
+        "repetition_penalty": 1.2,           # Heavily penalizes looping text
+        "no_repeat_ngram_size": 3,           # Prevents exact phrase repetition
+        "compression_ratio_threshold": 2.4   # Helps trigger fallback if output becomes repetitive garbage
     }
     
     if language_code:
@@ -31,7 +36,8 @@ def run_local_whisper(audio_path, language_code="bn", keywords=None):
         
     prompt = ""
     if language_code == "bn":
-        prompt = "This is a Bangladeshi office meeting. collection, adjust, MPO, dipo, practice, daily basis, message, amount, taka. How much money did they collect? It's a daily practice."
+        # Using a mixed-language Bengali/English prompt helps the model understand code-switching
+        prompt = "এটি একটি বাংলাদেশি অফিস মিটিং। collection, adjust, MPO, dipo, practice, daily basis, message, amount, taka ইত্যাদি নিয়ে আলোচনা হচ্ছে।"
     if keywords:
         prompt += f" Keywords: {keywords}"
         
